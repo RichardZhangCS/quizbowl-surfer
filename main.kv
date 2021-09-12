@@ -1,0 +1,404 @@
+#:kivy 1.11.1
+<StartingWindow>:
+    name: "start"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    FloatLayout:
+        Button:
+            text:"Enter New Entry"
+            pos_hint: {"x":0.15, "y":0.25}
+            font_size: 16
+            color: 0.1,0.5,0.6,1
+            size_hint: 0.25,0.08
+            on_release:
+                app.root.current = "newentryweb"
+                root.manager.transition.direction = 'left' 
+        Button:
+            text:"Edit Entries"
+            pos_hint: {"x":0.60, "y":0.25}
+            font_size: 16
+            color: 0.1,0.5,0.6,1
+            size_hint: 0.25,0.08
+            on_release:
+                app.root.current = "editentryedit"
+                root.manager.transition.direction = 'left' 
+        Image:
+            source: 'Quizbowl.png'
+            size: self.texture_size
+            pos_hint: {"x":0.0, "y":0.10}
+        Label:
+            id:"title"
+            text: "Quizbowl Surfer"
+            color: 0.1,0.5,0.6,1
+            font_size: 40
+            pos_hint: {"x":0.0, "y":0.30}
+        SettingsButton:
+            on_release:
+                app.root.current = "settings"
+                root.manager.transition.direction = 'left' 
+<SettingsWindow>:
+    name: "settings"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0, 0, 0, 1
+        Line:
+            points: [0.33*self.width, 0, 0.33*self.width, self.height]
+        Rectangle:
+            pos: 0, self.height*0.1
+            size: self.width*0.33, self.height*0.8
+    Label:
+        id: "settingstext"
+        text: "Settings"
+        color: 0,0,0,1
+        font_size: 24
+        pos_hint: {"x":-0.43, "y":0.45}
+    BackButton:
+        on_release:
+            app.root.current = "start"
+            root.manager.transition.direction = 'right'
+    Label:
+        id: "singlesettingtext"
+        text: "Settings 2"
+        color: 0,0,0,1
+        font_size: 24
+        pos_hint: {"x":-0.09, "y":0.45}
+    GridLayout:
+        cols: 2
+        pos_hint: {"x":0.33,"y":0.3}
+        size_hint: 0.66, 0.6
+        CheckBox:
+            id: "option1check"
+        Label:
+            color: 0,0,0,1
+            text: "Option 1"
+        CheckBox:
+            id: "option2check"
+        Label:
+            color: 0,0,0,1
+            text: "Option 2"
+        CheckBox:
+            id: "option3check"
+        Label:
+            color: 0,0,0,1
+            text: "Option 3"
+        Label:
+            color: 0,0,0,1
+            text: "Option 4"
+        TextInput:
+            multiline: False
+        Label:
+            color: 0,0,0,1
+            text: "Option 5"
+        TextInput:
+            multiline: False
+<NewEntryWebWindow>:
+    name: "newentryweb"
+    searchbutton: searchbutton
+    topicsearch: topicsearch
+    resulttext: resulttext
+    container: container
+    downloadbutton: downloadbutton
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            points: [self.width*.25, 0, self.width*.25, self.height]
+            width: 1
+        Line:
+            points: [self.width*.25, self.height*.15, self.width, self.height*.15]
+            width: 1
+    GridLayout:
+        cols: 1
+        pos_hint: {"x":0.0,"y":0.5}
+        size_hint: 0.25, 0.5
+        spacing: 5, 25
+        padding: 10, 30
+        Button:
+            id: wikipediabutton
+            text: "Wikipedia"
+        GridLayout:
+            cols: 1
+            Label:
+                id:"searchlabel"
+                text:"Search a topic:"
+                color: 0,0,0,1
+            TextInput:
+                id: topicsearch
+                multiline: False
+        Button:
+            id: searchbutton
+            text: "Search"
+    GridLayout:
+        cols: 2
+        pos_hint:{"x":0.25,"y":0}
+        size_hint: 0.75, 0.15
+        Button:
+            text: "Go Back"
+        Button:
+            id: downloadbutton
+            text: "Download Webpage"
+            on_release:
+                app.root.current = "newentryedit"
+                root.manager.transition.direction = 'left'
+    BackButton:
+        on_release:
+            app.root.current = "start"
+            root.manager.transition.direction = 'right'
+    GridLayout:
+        cols: 1
+        pos_hint: {"x":0.25, "y":0.15}
+        size_hint: 0.75, 0.85
+        ScrollView:
+            id: scrollview
+            bar_width: 10
+            bar_color: 1, 0, 0, 1   # red
+            bar_inactive_color: 0, 0, 1, 1
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+            StackLayout:
+                size_hint_y: None
+                id: container
+                Label:
+                    id: resulttext
+                    markup: True
+                    text: "Search up a topic"
+                    color: 0,0,0,1
+                    size_hint_x: 1.0
+                    size_hint_y: None
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+                    halign: "left"
+                    valign: "top"
+<NewEntryEditWindow>:
+    name:"newentryedit"
+    selecttext: selecttext
+    entrytext: entrytext
+    submitbutton: submitbutton
+    topicnamelabel: topicnamelabel
+    figurebutton: figurebutton
+    groupentrytext: groupentrytext
+    submitdatecheckbox: submitdatecheckbox
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            points: [self.width*0.5, 0, self.width*0.5, self.height]
+            width: 1
+    GridLayout:
+        cols: 1
+        pos_hint:{"x":0.0,"y":0.9}
+        size_hint: 0.5,0.1
+        Label:
+            id: topicnamelabel
+            text: "Topic Name"
+            color: 0,0,0,1
+            font_size:24
+    BackButton:
+        on_release:
+            app.root.current = "newentryweb"
+            root.manager.transition.direction = 'right'
+    TextInput:
+        id: entrytext
+        pos_hint:{"x":0.5, "y":0.3}
+        size_hint:0.5,0.7
+        multiline: True
+    SelectableText:
+        id: selecttext
+        pos_hint:{"x":0.0,"y":0.2}
+        size_hint:0.5,0.7
+    GridLayout:
+        cols: 1
+        pos_hint:{"x":0.0,"y":0.1}
+        size_hint: 0.5,0.1
+        Button:
+            id: figurebutton
+            text: "Open Figure Window"
+    GridLayout:
+        cols: 1
+        size_hint:0.5, 0.3
+        pos_hint:{"x":0.5, "y":0.0}
+        GridLayout:
+            cols: 2
+            padding: 10
+            Label:
+                id: grouplabel
+                color: 0,0,0,1
+                text: "Group Name"
+            TextInput:
+                id: groupentrytext
+                multiline: False
+        GridLayout:
+            cols: 2
+            padding: 10
+            Label:
+                id: submitdatelabel
+                color: 0,0,0,1
+                text: "Show Submit Date"
+            CheckBox:
+                id: submitdatecheckbox
+        Button:
+            id: submitbutton
+            text: "Submit"
+            on_release: app.root.current = "start"
+<SelectableLabel>:
+    canvas.before:
+        Color:
+            rgba: (0, 0.9, .1, .3) if self.selected else (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+<RV>:
+    viewclass: 'SelectableLabel'
+    SelectableRecycleBoxLayout:
+        default_size: None, dp(56)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'    
+
+<EditEntryEditWindow>:
+    name: "editentryedit"
+    entrylist: entrylist
+    editor: editor
+    clearbutton: clearbutton
+    webpagebutton: webpagebutton
+    deletebutton: deletebutton
+    submitbutton: submitbutton
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            points: [self.width*0.25, 0, self.width*0.25, self.height]
+            width: 1
+    GridLayout:
+        cols: 1
+        pos_hint: {"x":0.0, "y":0.1}
+        size_hint: 0.25,0.8
+        RV:
+            id: entrylist
+    GridLayout:
+        cols: 1
+        pos_hint: {"x":0.0,"y":0.9}
+        size_hint: 0.25,0.1
+        Label:
+            id:groupselectionlabel
+            text:"Search group:"
+            color: 0,0,0,1
+        DropDown:
+            Button:
+                text:"Test"
+    BackButton:
+        on_release:
+            app.root.current = "start"
+            root.manager.transition.direction = 'right'
+    TextInput:
+        id: editor
+        multiline: True
+        pos_hint: {"x":0.25, "y":0.4}
+        size_hint: 0.75, 0.6
+    GridLayout:
+        cols: 1
+        size_hint: 0.75, 0.4
+        pos_hint: {"x":0.25, "y":0.0}
+        GridLayout:
+            cols: 3
+            Button:
+                id: clearbutton
+                text: "Clear All"
+            Button:
+                id: webpagebutton
+                text: "Go to Webpage"
+                on_release:
+                    app.root.current = "editentryweb"
+                    root.manager.transition.direction = 'left'
+            Button:
+                id: deletebutton
+                text: "Delete"
+        Button:
+            id: submitbutton
+            text: "Submit"
+<EditEntryWebWindow>:
+    name:"editentryweb"
+    selecttext: selecttext
+    entrytext: entrytext
+    submitbutton: submitbutton
+    topicnamelabel: topicnamelabel
+    figurebutton: figurebutton
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            points: [self.width*0.5, 0, self.width*0.5, self.height]
+            width: 1
+    GridLayout:
+        cols: 1
+        pos_hint:{"x":0.0,"y":0.9}
+        size_hint: 0.5,0.1
+        Label:
+            id: topicnamelabel
+            text: "Topic Name"
+            color: 0,0,0,1
+            font_size:24
+    BackButton:
+        on_release:
+            app.root.current = "newentryweb"
+            root.manager.transition.direction = 'right'
+    TextInput:
+        id: entrytext
+        pos_hint:{"x":0.5, "y":0.2}
+        size_hint:0.5,0.8
+        multiline: True
+    SelectableText:
+        id: selecttext
+        pos_hint:{"x":0.0,"y":0.2}
+        size_hint:0.5,0.7
+    GridLayout:
+        cols: 1
+        pos_hint:{"x":0.0,"y":0.1}
+        size_hint: 0.5,0.1
+        Button:
+            id: figurebutton
+            text: "Open Figure Window"
+    GridLayout:
+        cols: 2
+        size_hint:0.5, 0.2
+        pos_hint:{"x":0.5, "y":0.0}
+        Button:
+            text: "Format 1"
+        Button:
+            text: "Format 2"
+        Button:
+            text: "Cancel"
+        Button:
+            id: submitbutton
+            text: "Submit"
+            on_release: app.root.current = "start"
